@@ -4,11 +4,11 @@ import numpy as np
 
 def read_xyz(filename):
     """
-    Reads an XYZ file, ensuring correct format and validating atomic coordinates.
-    Dynamically determines the correct atom count.
+    Reads an XYZ file and ensures it has the correct format.
+    Automatically corrects the atom count if necessary.
     """
     with open(filename, 'r') as f:
-        lines = [line.strip() for line in f ] #if line.strip()]  # Remove blank lines
+        lines = [line.strip() for line in f if line.strip()]  # Remove blank lines
 
     if len(lines) < 3:
         raise ValueError(f"[ERROR] '{filename}' does not contain enough lines to be a valid XYZ file.")
@@ -18,17 +18,17 @@ def read_xyz(filename):
     except ValueError:
         raise ValueError(f"[ERROR] First line of '{filename}' must be an integer (number of atoms).")
 
-    # Count actual atomic lines by filtering out invalid entries
-    actual_atom_count = sum(1 for line in lines[2:] if len(line.split()) == 4)  # Ensure 'Element X Y Z' format
+    actual_atom_count = len(lines) - 2  # Ignore first two lines
 
     if declared_atom_count != actual_atom_count:
         print(f"[WARNING] Atom count mismatch in '{filename}': Declared={declared_atom_count}, Found={actual_atom_count}. Using {actual_atom_count}.")
+        declared_atom_count = actual_atom_count  # Override with actual count
 
     xyz_data = []
-    for i, line in enumerate(lines[2:2 + actual_atom_count], start=1):
+    for i, line in enumerate(lines[2:2 + declared_atom_count], start=1):
         parts = line.split()
-        if len(parts) != 4:
-            raise ValueError(f"[ERROR] Invalid line format in '{filename}' at line {i+2}: '{line}'. Ensure it follows 'Element X Y Z'.")
+        if len(parts) < 4:
+            raise ValueError(f"[ERROR] Invalid line format in '{filename}' at line {i+2}: '{line}'")
         
         atom_label = parts[0]
         try:
@@ -40,6 +40,8 @@ def read_xyz(filename):
     
     return xyz_data
 
+
+
 def write_xyz(filename, xyz_data):
     """
     Writes a list of (atom_label, (x, y, z)) to an XYZ file.
@@ -50,32 +52,59 @@ def write_xyz(filename, xyz_data):
         for (atom_label, (x, y, z)) in xyz_data:
             f.write(f"{atom_label}  {x:.6f}  {y:.6f}  {z:.6f}\n")
 
+def calculate_distance(coord1, coord2):
+    """
+    Calculate Euclidean distance between two 3D coordinates.
+    """
+    return np.linalg.norm(np.array(coord1) - np.array(coord2))
+
+def find_furthest_placement(main_coords, ion_coords, min_distance=2.0):
+    """
+    Places the counter ion at a position where it is at least 'min_distance' Å away
+    from all atoms in the main structure.
+    """
+    main_centroid = np.mean([coord for _, coord in main_coords], axis=0)
+    
+    # Start with an arbitrary offset along the x-axis
+    direction = np.array([1.0, 0.0, 0.0])
+    
+    # Find the max coordinate along this direction to push ion away
+    max_main_x = max(coord[0] for _, coord in main_coords)
+    
+    # Place the ion at least 'min_distance' away from this max x-coordinate
+    ion_offset = max_main_x + min_distance + 1.0  # Extra buffer
+    new_ion_coords = []
+
+    for atom_label, coord in ion_coords:
+        new_coord = np.array(coord) + direction * ion_offset
+        new_ion_coords.append((atom_label, tuple(new_coord)))
+
+    return new_ion_coords
+
 def create_frozen_input(frozen_count):
     """
-    Creates an xTB input file that correctly freezes the first 'frozen_count' atoms.
-    Uses a format that xTB correctly recognizes.
+    Creates an xTB input file that freezes the first 'frozen_count' atoms.
     """
     with open("freeze.inp", "w") as f:
         f.write("$fix\n")
-        f.write("  atoms: ")
-        f.write(" ".join(str(i) for i in range(1, frozen_count + 1)))  # Ensure 1-based index
-        f.write("\n$end\n")
+        f.write(f"  atoms: 1-{frozen_count}\n")
+        f.write("$end\n")
     print(f"[INFO] Created freeze.inp (freezing atoms 1 to {frozen_count})")
 
-def run_xtb_opt_frozen(xyz_file, charge=0, solvent="water"):
+def run_xtb_opt_frozen(xyz_file, charge=0):
     """
-    Runs xTB geometry optimization with frozen main molecule and user-defined solvent.
+    Runs xTB geometry optimization with frozen main molecule.
     """
     cmd = [
         "xtb",
         xyz_file,
         "--opt", "tight",
         "--gfn2",
-        "--alpb", solvent,
+        "--alpb", "water",
         "--input", "freeze.inp",
         "--chrg", str(charge)
     ]
-    print(f"[INFO] Running xTB with solvent '{solvent}'...")
+    print("[INFO] Running xTB with freeze.inp...")
     completed_process = subprocess.run(cmd, capture_output=True, text=True)
     
     if completed_process.returncode != 0:
@@ -88,27 +117,37 @@ def run_xtb_opt_frozen(xyz_file, charge=0, solvent="water"):
             print("[INFO] Renamed 'xtbopt.xyz' to 'combined_optimized.xyz'")
 
 def main():
+    # Ask user for input files
     main_xyz = input("Enter the main molecule (frozen) XYZ file: ")
     ion_xyz = input("Enter the counter ion XYZ file: ")
+
+    # Read input files
     main_coords = read_xyz(main_xyz)
     ion_coords = read_xyz(ion_xyz)
 
-    solvent = input("Enter solvent model for xTB (default = 'water'): ").strip()
-    if not solvent:
-        solvent = "water"
+    # Place the ion at a reasonable distance from the main molecule
+    shifted_ion_coords = find_furthest_placement(main_coords, ion_coords, min_distance=2.0)
 
-    combined_coords = main_coords + ion_coords
+    # Combine the structures
+    combined_coords = main_coords + shifted_ion_coords
 
+    # Write new XYZ file
     combined_filename = "combined.xyz"
     write_xyz(combined_filename, combined_coords)
     print(f"[INFO] Wrote combined system to '{combined_filename}'")
 
+    # Freeze the main structure atoms
     frozen_count = len(main_coords)
     create_frozen_input(frozen_count)
 
-    total_charge = int(input("Enter total net charge for the combined system [0]: ") or "0")
+    # Prompt for system charge (default = 0)
+    total_charge = input("Enter total net charge for the combined system [0]: ")
+    if not total_charge.strip():
+        total_charge = "0"
+    total_charge = int(total_charge)
 
-    run_xtb_opt_frozen(combined_filename, charge=total_charge, solvent=solvent)
+    # Run xTB optimization with frozen main structure
+    run_xtb_opt_frozen(combined_filename, charge=total_charge)
 
     print("[INFO] Done. Check 'combined_optimized.xyz' for the final structure.")
 
