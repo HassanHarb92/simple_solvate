@@ -2,43 +2,30 @@ import os
 import subprocess
 import numpy as np
 
-def oldread_xyz(filename):
-    """
-    Reads an XYZ file and returns a list of (atom_label, (x, y, z)).
-    """
-    with open(filename, 'r') as f:
-        lines = f.readlines()
-    atom_count = int(lines[0].strip())
-    xyz_data = []
-    for line in lines[2:2 + atom_count]:  # Skip first two lines
-        parts = line.split()
-        atom_label = parts[0]
-        x, y, z = map(float, parts[1:4])
-        xyz_data.append((atom_label, (x, y, z)))
-    return xyz_data
-
-
 def read_xyz(filename):
     """
-    Reads an XYZ file and returns a list of (atom_label, (x, y, z)).
-    Skips empty lines and checks for errors.
+    Reads an XYZ file and ensures it has the correct format.
+    Automatically corrects the atom count if necessary.
     """
     with open(filename, 'r') as f:
         lines = [line.strip() for line in f if line.strip()]  # Remove blank lines
-    
+
     if len(lines) < 3:
         raise ValueError(f"[ERROR] '{filename}' does not contain enough lines to be a valid XYZ file.")
-    
+
     try:
-        atom_count = int(lines[0])  # First line should be an integer
+        declared_atom_count = int(lines[0])  # First line should be an integer
     except ValueError:
         raise ValueError(f"[ERROR] First line of '{filename}' must be an integer (number of atoms).")
-    
-    if len(lines) < atom_count + 2:
-        raise ValueError(f"[ERROR] Expected {atom_count} atoms in '{filename}', but found fewer lines.")
+
+    actual_atom_count = len(lines) - 2  # Ignore first two lines
+
+    if declared_atom_count != actual_atom_count:
+        print(f"[WARNING] Atom count mismatch in '{filename}': Declared={declared_atom_count}, Found={actual_atom_count}. Using {actual_atom_count}.")
+        declared_atom_count = actual_atom_count  # Override with actual count
 
     xyz_data = []
-    for i, line in enumerate(lines[2:2 + atom_count], start=1):  # Skip first two lines
+    for i, line in enumerate(lines[2:2 + declared_atom_count], start=1):
         parts = line.split()
         if len(parts) < 4:
             raise ValueError(f"[ERROR] Invalid line format in '{filename}' at line {i+2}: '{line}'")
@@ -52,7 +39,6 @@ def read_xyz(filename):
         xyz_data.append((atom_label, (x, y, z)))
     
     return xyz_data
-
 
 
 
