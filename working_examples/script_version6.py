@@ -62,7 +62,7 @@ def generate_xyz_from_smiles(smiles, name, script_path="/Users/hharb/Desktop/Cod
     command = ["python", script_path, smiles, name]
 
     print(f"[INFO] Generating XYZ for {name} ({smiles})...")
-    subprocess.run(command, capture_output=True, text=True)
+    result = subprocess.run(command, capture_output=True, text=True)
 
     if not os.path.exists(output_file):
         raise RuntimeError(f"[ERROR] Failed to generate XYZ file for {name}")
@@ -136,7 +136,7 @@ def create_frozen_input(main_xyz_file):
     
     print(f"[INFO] Created freeze.inp (freezing atoms 1 to {frozen_count})")
 
-def run_xtb_optimization(xyz_file, charge, solvent, output_name):
+def run_xtb_optimization(xyz_file, charge, solvent):
     """Runs xTB geometry optimization while freezing the main structure."""
     if not os.path.exists(xyz_file):
         raise RuntimeError(f"[ERROR] No solvated system found: {xyz_file}")
@@ -144,8 +144,8 @@ def run_xtb_optimization(xyz_file, charge, solvent, output_name):
     cmd = ["xtb", xyz_file, "--opt", "tight", "--gfn2", "--alpb", solvent, "--input", "freeze.inp", "--chrg", str(charge)]
     print(f"[INFO] Running xTB with solvent '{solvent}'...")
     subprocess.run(cmd, check=True)
-    os.rename("xtbopt.xyz", output_name)
-    print(f"[INFO] Optimization complete! Output saved as '{output_name}'.")
+    os.rename("xtbopt.xyz", "solvated_optimized.xyz")
+    print("[INFO] Optimization complete! Output saved as 'solvated_optimized.xyz'.")
 
 def main():
     input_file = sys.argv[1]
@@ -158,17 +158,15 @@ def main():
         counter_ion_xyz = generate_xyz_from_smiles(params["--counter_ion_SMILES"], params["--counter_ion"])
         all_coords += place_counter_ions(main_coords, counter_ion_xyz, int(params["--counter_ion_count"]))
 
-        write_combined_xyz("counter_ion_added.xyz", all_coords)
-        create_frozen_input(params["--structure"])
-        run_xtb_optimization("counter_ion_added.xyz", params["--charge"], params["--solvent"], "counter_ion_optimized.xyz")
-
     if params["--solvent"].upper() != "NONE":
         solvent_xyz = generate_xyz_from_smiles(params["--solvent_SMILES"], params["--solvent"])
         solvents = distribute_solvents_on_sphere(calculate_center_of_mass(main_coords), 10.0, 20, solvent_xyz)
         all_coords += solvents
 
-        write_combined_xyz("solvated_system.xyz", all_coords)
-        run_xtb_optimization("solvated_system.xyz", params["--charge"], params["--solvent"], "solvated_optimized.xyz")
+    write_combined_xyz("solvated_system.xyz", all_coords)
+    create_frozen_input(params["--structure"])
+
+    run_xtb_optimization("solvated_system.xyz", params["--charge"], params["--solvent"])
 
 if __name__ == "__main__":
     main()

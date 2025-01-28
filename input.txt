@@ -1,5 +1,8 @@
 --structure Citrate.xyz
 --charge 0
---counter_ion NONE
+--counter_ion Li+
+--counter_ion_count 1
+--counter_ion_SMILES [Li+] 
 --solvent Water
 --solvent_SMILES O
+
