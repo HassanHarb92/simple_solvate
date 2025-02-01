@@ -39,7 +39,7 @@ def count_atoms(filename):
     with open(filename, 'r') as f:
         return int(f.readline().strip())
 
-def parse_input_file(filename):
+def oldparse_input_file(filename):
     """Parses the input file and extracts required parameters."""
     params = {}
     with open(filename, 'r') as f:
@@ -55,6 +55,33 @@ def parse_input_file(filename):
             raise ValueError(f"[ERROR] Missing required field: {field}")
 
     return params
+
+def parse_input_file(filename):
+    """Parses the input file and extracts required parameters."""
+    params = {}
+
+    with open(filename, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):  # Ignore empty lines or comments
+                continue
+
+            parts = line.split(maxsplit=1)
+            if len(parts) == 2:  # Proper key-value pair
+                key, value = parts
+                params[key.strip()] = value.strip()
+            else:
+                print(f"[WARNING] Skipping malformed line: {line}")
+
+    # Validate required fields
+    required_fields = ["--structure", "--charge"]
+    for field in required_fields:
+        if field not in params:
+            raise ValueError(f"[ERROR] Missing required field: {field}")
+
+    return params
+
+
 
 def generate_xyz_from_smiles(smiles, name, script_path="/Users/hharb/Desktop/Codes/simple_solvate/SMILES2XYZ.py"):
     """Generates an XYZ file from a SMILES string using an external script."""
