@@ -4,6 +4,22 @@ import numpy as np
 from math import pi
 import sys
 
+
+def print_intro():
+   intro = """
+   Remember to use this format for your input:
+   --structure Citrate.xyz
+   --charge 0
+   --counter_ion Li+
+   --counter_ion_count 1
+   --counter_ion_SMILES [Li+]
+   --solvent Water
+   --solvent_SMILES O
+   """
+   print (intro)
+
+print_intro()
+
 def parse_input_file(filename):
     """Parses the input file and extracts required parameters."""
     params = {}
