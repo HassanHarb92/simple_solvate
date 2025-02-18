@@ -1,0 +1,8 @@
+--structure Ferrocene_0_gas.xyz
+--charge 0
+--solvent Acetonitrile
+--solvent_SMILES CC#N
+--counter_ion NONE
+--counter_ion_SMILES NONE
+--counter_ion_count 0
+

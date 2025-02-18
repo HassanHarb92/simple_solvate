@@ -122,6 +122,7 @@ def run_xtb_optimization(xyz_file, charge, solvent):
 
 def main():
     """Main function to set up the system, add solvent, and run xTB optimization."""
+    radius_solv = 9.0
     if len(sys.argv) < 2:
         print("[ERROR] No input file provided.")
         sys.exit(1)
@@ -135,7 +136,8 @@ def main():
     # If solvent is defined, add solvent molecules
     if params["--solvent"].upper() != "NONE":
         solvent_xyz = f"{params['--solvent']}.xyz"  # Assume solvent XYZ file exists
-        solvents = distribute_solvents_on_sphere(calculate_center_of_mass(main_coords), 10.0, 20, solvent_xyz)
+#        solvents = distribute_solvents_on_sphere(calculate_center_of_mass(main_coords), 10.0, 20, solvent_xyz)
+        solvents = distribute_solvents_on_sphere(calculate_center_of_mass(main_coords), radius_solv, 20, solvent_xyz)
         all_coords += solvents
 
     # Write out solvated system
@@ -146,7 +148,7 @@ def main():
 
     # Run xTB optimization with frozen main structure
     run_xtb_optimization("solvated_system.xyz", params["--charge"], params["--solvent"])
-
+    print ("the radius used here is :", radius_solv)
 if __name__ == "__main__":
     main()
 
