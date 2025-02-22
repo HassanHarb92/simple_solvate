@@ -90,8 +90,8 @@ def create_frozen_input(main_xyz_file):
 def run_xtb_optimization(xyz_file, charge, solvent):
     if not os.path.exists(xyz_file):
         raise RuntimeError(f"[ERROR] No solvated system found: {xyz_file}")
-    cmd = ["xtb", xyz_file, "--opt", "tight", "--gfn2", "--alpb", solvent, "--input", "freeze.inp", "--chrg", str(charge)]
-#    cmd = ["xtb", xyz_file, "--opt", "tight", "--gfn2", "--cbonds", "--alpb", solvent, "--input", "freeze.inp", "--chrg", str(charge)]
+#    cmd = ["xtb", xyz_file, "--opt", "tight", "--gfn2", "--alpb", solvent, "--input", "freeze.inp", "--chrg", str(charge)]
+    cmd = ["xtb", xyz_file, "--opt", "tight", "--gfn2", "--cbonds", "--alpb", solvent, "--input", "freeze.inp", "--chrg", str(charge)]
     print(f"[INFO] Running xTB with solvent '{solvent}'...")
     subprocess.run(cmd, check=True)
     os.rename("xtbopt.xyz", "solvated_optimized.xyz")

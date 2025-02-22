@@ -1,0 +1,257 @@
+      -----------------------------------------------------------      
+     |                   =====================                   |     
+     |                           x T B                           |     
+     |                   =====================                   |     
+     |                         S. Grimme                         |     
+     |          Mulliken Center for Theoretical Chemistry        |     
+     |                    University of Bonn                     |     
+      -----------------------------------------------------------      
+
+   * xtb version 6.6.0 (conda-forge) compiled by 'runner@Mac-1676020848589.local' on 2023-02-10
+
+   xtb is free software: you can redistribute it and/or modify it under
+   the terms of the GNU Lesser General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+   
+   xtb is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Lesser General Public License for more details.
+   
+   Cite this work as:
+   * C. Bannwarth, E. Caldeweyher, S. Ehlert, A. Hansen, P. Pracht,
+     J. Seibert, S. Spicher, S. Grimme, WIREs Comput. Mol. Sci., 2020, 11,
+     e01493. DOI: 10.1002/wcms.1493
+   
+   for GFN2-xTB:
+   * C. Bannwarth, S. Ehlert and S. Grimme., J. Chem. Theory Comput., 2019,
+     15, 1652-1671. DOI: 10.1021/acs.jctc.8b01176
+   for GFN1-xTB:
+   * S. Grimme, C. Bannwarth, P. Shushkov, J. Chem. Theory Comput., 2017,
+     13, 1989-2009. DOI: 10.1021/acs.jctc.7b00118
+   for GFN0-xTB:
+   * P. Pracht, E. Caldeweyher, S. Ehlert, S. Grimme, ChemRxiv, 2019, preprint.
+     DOI: 10.26434/chemrxiv.8326202.v1
+   for GFN-FF:
+   * S. Spicher and S. Grimme, Angew. Chem. Int. Ed., 2020, 59, 15665-15673.
+     DOI: 10.1002/anie.202004239
+   
+   for ALPB and GBSA implicit solvation:
+   * S. Ehlert, M. Stahn, S. Spicher, S. Grimme, J. Chem. Theory Comput.,
+     2021, 17, 4250-4261. DOI: 10.1021/acs.jctc.1c00471
+   
+   for DFT-D4:
+   * E. Caldeweyher, C. Bannwarth and S. Grimme, J. Chem. Phys., 2017,
+     147, 034112. DOI: 10.1063/1.4993215
+   * E. Caldeweyher, S. Ehlert, A. Hansen, H. Neugebauer, S. Spicher,
+     C. Bannwarth and S. Grimme, J. Chem. Phys., 2019, 150, 154122.
+     DOI: 10.1063/1.5090222
+   * E. Caldeweyher, J.-M. Mewes, S. Ehlert and S. Grimme, Phys. Chem. Chem. Phys.
+     2020, 22, 8499-8512. DOI: 10.1039/D0CP00502A
+   
+   for sTDA-xTB:
+   * S. Grimme and C. Bannwarth, J. Chem. Phys., 2016, 145, 054103.
+     DOI: 10.1063/1.4959605
+   
+   in the mass-spec context:
+   * V. Asgeirsson, C. Bauer and S. Grimme, Chem. Sci., 2017, 8, 4879.
+     DOI: 10.1039/c7sc00601b
+   * J. Koopman and S. Grimme, ACS Omega 2019, 4, 12, 15120-15133.
+     DOI: 10.1021/acsomega.9b02011
+   
+   for metadynamics refer to:
+   * S. Grimme, J. Chem. Theory Comput., 2019, 155, 2847-2862
+     DOI: 10.1021/acs.jctc.9b00143
+   
+   for SPH calculations refer to:
+   * S. Spicher and S. Grimme, J. Chem. Theory Comput., 2021, 17, 1701-1714
+     DOI: 10.1021/acs.jctc.0c01306
+   
+   with help from (in alphabetical order)
+   P. Atkinson, C. Bannwarth, F. Bohle, G. Brandenburg, E. Caldeweyher
+   M. Checinski, S. Dohm, S. Ehlert, S. Ehrlich, I. Gerasimov, C. Hölzer
+   A. Katbashev, J. Koopman, C. Lavigne, S. Lehtola, F. März, M. Müller,
+   F. Musil, H. Neugebauer, J. Pisarek, C. Plett, P. Pracht, F. Pultar,
+   J. Seibert, P. Shushkov, S. Spicher, M. Stahn, M. Steiner, T. Strunk,
+   J. Stückrath, T. Rose, and J. Unsleber
+   
+ * started run on 2025/02/18 at 01:43:17.801     
+
+           -------------------------------------------------
+          |                Calculation Setup                |
+           -------------------------------------------------
+
+          program call               : xtb tmpcoord --gfn1 --opt --alpb acn
+          coordinate file            : tmpcoord
+          omp threads                :                     1
+
+   ID    Z sym.   atoms
+    1    6 c      1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 29, 30, 35, 36, 41, 42,
+                  47, 48, 53, 54, 59, 60, 65, 66, 71, 72, 77, 78, 83, 84, 89,
+                  90, 95, 96, 101, 102, 107, 108, 113, 114, 119, 120, 125,
+                  126, 131, 132, 137, 138, 143, 144
+    2    1 h      2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 32-34, 38-40, 44-46,
+                  50-52, 56-58, 62-64, 68-70, 74-76, 80-82, 86-88, 92-94,
+                  98-100, 104-106, 110-112, 116-118, 122-124, 128-130,
+                  134-136, 140-142, 146-148
+    3   26 fe     21
+    4    9 f      22, 24-28
+    5   15 p      23
+    6    7 n      31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 103, 109,
+                  115, 121, 127, 133, 139, 145
+constraining bond 1 2 to    1.0802300 Å, actual value:    1.0802278 Å
+constraining bond 1 3 to    1.4294600 Å, actual value:    1.4294569 Å
+constraining bond 1 7 to    1.4231400 Å, actual value:    1.4231363 Å
+constraining bond 1 21 to    2.0875600 Å, actual value:    2.0875586 Å
+constraining bond 3 4 to    1.0802800 Å, actual value:    1.0802789 Å
+constraining bond 3 5 to    1.4297300 Å, actual value:    1.4297266 Å
+constraining bond 3 21 to    2.0608800 Å, actual value:    2.0608823 Å
+constraining bond 5 6 to    1.0801600 Å, actual value:    1.0801569 Å
+constraining bond 5 9 to    1.4232500 Å, actual value:    1.4232515 Å
+constraining bond 5 21 to    2.0861800 Å, actual value:    2.0861778 Å
+constraining bond 7 8 to    1.0805300 Å, actual value:    1.0805276 Å
+constraining bond 7 9 to    1.4188800 Å, actual value:    1.4188824 Å
+constraining bond 7 21 to    2.1331100 Å, actual value:    2.1331075 Å
+constraining bond 9 10 to    1.0804200 Å, actual value:    1.0804241 Å
+constraining bond 9 21 to    2.1319000 Å, actual value:    2.1319038 Å
+constraining bond 11 12 to    1.0801400 Å, actual value:    1.0801378 Å
+constraining bond 11 13 to    1.4302400 Å, actual value:    1.4302375 Å
+constraining bond 11 17 to    1.4289300 Å, actual value:    1.4289314 Å
+constraining bond 11 21 to    2.0615300 Å, actual value:    2.0615305 Å
+constraining bond 13 14 to    1.0802400 Å, actual value:    1.0802378 Å
+constraining bond 13 15 to    1.4243600 Å, actual value:    1.4243557 Å
+constraining bond 13 21 to    2.0798100 Å, actual value:    2.0798076 Å
+constraining bond 15 16 to    1.0805600 Å, actual value:    1.0805564 Å
+constraining bond 15 19 to    1.4190900 Å, actual value:    1.4190891 Å
+constraining bond 15 21 to    2.1272700 Å, actual value:    2.1272652 Å
+constraining bond 17 18 to    1.0803000 Å, actual value:    1.0803006 Å
+constraining bond 17 19 to    1.4222400 Å, actual value:    1.4222424 Å
+constraining bond 17 21 to    2.0942900 Å, actual value:    2.0942873 Å
+constraining bond 19 20 to    1.0804400 Å, actual value:    1.0804373 Å
+constraining bond 19 21 to    2.1365700 Å, actual value:    2.1365725 Å
+constraining bond 22 23 to    1.6657200 Å, actual value:    1.6657182 Å
+constraining bond 22 28 to    1.1737100 Å, actual value:    1.1737079 Å
+constraining bond 23 24 to    1.6688900 Å, actual value:    1.6688933 Å
+constraining bond 23 25 to    1.6573100 Å, actual value:    1.6573086 Å
+constraining bond 23 26 to    1.6687000 Å, actual value:    1.6687047 Å
+constraining bond 23 27 to    1.6577700 Å, actual value:    1.6577675 Å
+constraining bond 23 28 to    1.6795700 Å, actual value:    1.6795656 Å
+constraining bond 29 30 to    1.4619200 Å, actual value:    1.4619157 Å
+constraining bond 29 32 to    1.0940400 Å, actual value:    1.0940395 Å
+constraining bond 29 33 to    1.0940400 Å, actual value:    1.0940397 Å
+constraining bond 29 34 to    1.0940400 Å, actual value:    1.0940387 Å
+constraining bond 30 31 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 35 36 to    1.4619200 Å, actual value:    1.4619156 Å
+constraining bond 35 38 to    1.0940400 Å, actual value:    1.0940399 Å
+constraining bond 35 39 to    1.0940400 Å, actual value:    1.0940400 Å
+constraining bond 35 40 to    1.0940400 Å, actual value:    1.0940404 Å
+constraining bond 36 37 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 41 42 to    1.4619200 Å, actual value:    1.4619157 Å
+constraining bond 41 44 to    1.0940400 Å, actual value:    1.0940399 Å
+constraining bond 41 45 to    1.0940400 Å, actual value:    1.0940396 Å
+constraining bond 41 46 to    1.0940400 Å, actual value:    1.0940404 Å
+constraining bond 42 43 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 47 48 to    1.4619200 Å, actual value:    1.4619156 Å
+constraining bond 47 50 to    1.0940400 Å, actual value:    1.0940399 Å
+constraining bond 47 51 to    1.0940400 Å, actual value:    1.0940401 Å
+constraining bond 47 52 to    1.0940400 Å, actual value:    1.0940404 Å
+constraining bond 48 49 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 53 54 to    1.4619200 Å, actual value:    1.4619157 Å
+constraining bond 53 56 to    1.0940400 Å, actual value:    1.0940408 Å
+constraining bond 53 57 to    1.0940400 Å, actual value:    1.0940400 Å
+constraining bond 53 58 to    1.0940400 Å, actual value:    1.0940399 Å
+constraining bond 54 55 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 59 60 to    1.4619200 Å, actual value:    1.4619167 Å
+constraining bond 59 62 to    1.0940400 Å, actual value:    1.0940395 Å
+constraining bond 59 63 to    1.0940400 Å, actual value:    1.0940397 Å
+constraining bond 59 64 to    1.0940400 Å, actual value:    1.0940387 Å
+constraining bond 60 61 to    1.1602500 Å, actual value:    1.1602470 Å
+constraining bond 65 66 to    1.4619200 Å, actual value:    1.4619157 Å
+constraining bond 65 68 to    1.0940400 Å, actual value:    1.0940399 Å
+constraining bond 65 69 to    1.0940400 Å, actual value:    1.0940392 Å
+constraining bond 65 70 to    1.0940400 Å, actual value:    1.0940404 Å
+constraining bond 66 67 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 71 72 to    1.4619200 Å, actual value:    1.4619157 Å
+constraining bond 71 74 to    1.0940400 Å, actual value:    1.0940395 Å
+constraining bond 71 75 to    1.0940400 Å, actual value:    1.0940388 Å
+constraining bond 71 76 to    1.0940400 Å, actual value:    1.0940404 Å
+constraining bond 72 73 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 77 78 to    1.4619200 Å, actual value:    1.4619157 Å
+constraining bond 77 80 to    1.0940400 Å, actual value:    1.0940399 Å
+constraining bond 77 81 to    1.0940400 Å, actual value:    1.0940396 Å
+constraining bond 77 82 to    1.0940400 Å, actual value:    1.0940404 Å
+constraining bond 78 79 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 83 84 to    1.4619200 Å, actual value:    1.4619157 Å
+constraining bond 83 86 to    1.0940400 Å, actual value:    1.0940404 Å
+constraining bond 83 87 to    1.0940400 Å, actual value:    1.0940397 Å
+constraining bond 83 88 to    1.0940400 Å, actual value:    1.0940391 Å
+constraining bond 84 85 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 89 90 to    1.4619200 Å, actual value:    1.4619157 Å
+constraining bond 89 92 to    1.0940400 Å, actual value:    1.0940399 Å
+constraining bond 89 93 to    1.0940400 Å, actual value:    1.0940400 Å
+constraining bond 89 94 to    1.0940400 Å, actual value:    1.0940391 Å
+constraining bond 90 91 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 95 96 to    1.4619200 Å, actual value:    1.4619157 Å
+constraining bond 95 98 to    1.0940400 Å, actual value:    1.0940399 Å
+constraining bond 95 99 to    1.0940400 Å, actual value:    1.0940388 Å
+constraining bond 95 100 to    1.0940400 Å, actual value:    1.0940404 Å
+constraining bond 96 97 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 101 102 to    1.4619200 Å, actual value:    1.4619167 Å
+constraining bond 101 104 to    1.0940400 Å, actual value:    1.0940395 Å
+constraining bond 101 105 to    1.0940400 Å, actual value:    1.0940388 Å
+constraining bond 101 106 to    1.0940400 Å, actual value:    1.0940400 Å
+constraining bond 102 103 to    1.1602500 Å, actual value:    1.1602470 Å
+constraining bond 107 108 to    1.4619200 Å, actual value:    1.4619166 Å
+constraining bond 107 110 to    1.0940400 Å, actual value:    1.0940395 Å
+constraining bond 107 111 to    1.0940400 Å, actual value:    1.0940401 Å
+constraining bond 107 112 to    1.0940400 Å, actual value:    1.0940392 Å
+constraining bond 108 109 to    1.1602500 Å, actual value:    1.1602470 Å
+constraining bond 113 114 to    1.4619200 Å, actual value:    1.4619167 Å
+constraining bond 113 116 to    1.0940400 Å, actual value:    1.0940404 Å
+constraining bond 113 117 to    1.0940400 Å, actual value:    1.0940397 Å
+constraining bond 113 118 to    1.0940400 Å, actual value:    1.0940387 Å
+constraining bond 114 115 to    1.1602500 Å, actual value:    1.1602470 Å
+constraining bond 119 120 to    1.4619200 Å, actual value:    1.4619167 Å
+constraining bond 119 122 to    1.0940400 Å, actual value:    1.0940395 Å
+constraining bond 119 123 to    1.0940400 Å, actual value:    1.0940397 Å
+constraining bond 119 124 to    1.0940400 Å, actual value:    1.0940395 Å
+constraining bond 120 121 to    1.1602500 Å, actual value:    1.1602470 Å
+constraining bond 125 126 to    1.4619200 Å, actual value:    1.4619167 Å
+constraining bond 125 128 to    1.0940400 Å, actual value:    1.0940395 Å
+constraining bond 125 129 to    1.0940400 Å, actual value:    1.0940397 Å
+constraining bond 125 130 to    1.0940400 Å, actual value:    1.0940387 Å
+constraining bond 126 127 to    1.1602500 Å, actual value:    1.1602470 Å
+constraining bond 131 132 to    1.4619200 Å, actual value:    1.4619156 Å
+constraining bond 131 134 to    1.0940400 Å, actual value:    1.0940395 Å
+constraining bond 131 135 to    1.0940400 Å, actual value:    1.0940397 Å
+constraining bond 131 136 to    1.0940400 Å, actual value:    1.0940396 Å
+constraining bond 132 133 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 137 138 to    1.4619200 Å, actual value:    1.4619156 Å
+constraining bond 137 140 to    1.0940400 Å, actual value:    1.0940399 Å
+constraining bond 137 141 to    1.0940400 Å, actual value:    1.0940405 Å
+constraining bond 137 142 to    1.0940400 Å, actual value:    1.0940396 Å
+constraining bond 138 139 to    1.1602500 Å, actual value:    1.1602480 Å
+constraining bond 143 144 to    1.4619200 Å, actual value:    1.4619157 Å
+constraining bond 143 146 to    1.0940400 Å, actual value:    1.0940399 Å
+constraining bond 143 147 to    1.0940400 Å, actual value:    1.0940396 Å
+constraining bond 143 148 to    1.0940400 Å, actual value:    1.0940404 Å
+constraining bond 144 145 to    1.1602500 Å, actual value:    1.1602480 Å
+
+molecular fragmentation (1/2 indicates fragments):
+111111111111111111111222222222222222222222222222222222222222222222222222
+222222222222222222222222222222222222222222222222222222222222222222222222
+2222
+# atoms in fragment 1/2:    21   127
+ fragment masses (1/2) :      186.03      966.00
+CMA distance (Bohr)    :   5.426
+constraining FC (au)   :  0.0200
+########################################################################
+[WARNING] Please study the warnings concerning your input carefully
+-1- prog_main_parseArguments: The use of '--gfn1' is discouraged, please use '--gfn 1' next time
+########################################################################
+########################################################################
+[ERROR] Program stopped due to fatal error
+-2- Could not setup defaults
+-1- solv_model_loadInternalParam: solvent: 'acn' is not parametrized
+########################################################################
