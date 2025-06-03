@@ -20,7 +20,7 @@ st.title('Interplay of Redox Mediators and Polymeric Targets for High-Capacity A
 st.markdown('## Supplementary Information Visualizer')
 
 # Directory containing the .xyz files
-xyz_files_directory = './xyz_files'
+xyz_files_directory = 'redox_targeting/xyz_files'
 
 # List all .xyz files in the directory
 xyz_files = list_xyz_files(xyz_files_directory)
