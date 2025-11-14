@@ -12,4 +12,4 @@ py3Dmol==2.0.0.post2
 # required for stmol:
 ipython_genutils
 stmol
-imghdr
+standard-imghdr
